@@ -133,3 +133,18 @@ printfinit(void)
   initlock(&pr.lock, "pr");
   pr.locking = 1;
 }
+
+void backtrace(void) {
+  uint64 fp = r_fp();  // 현재 프레임 포인터 값을 읽음
+  printf("fp:%x\n", fp);
+  uint64 ra;
+
+  printf("backtrace:\n");
+  while (fp != 0) {
+      printf("fp:%x\n", fp);
+      printf("fp:%x\n", fp-16);
+      ra = *(uint64 *)(fp - 8);  // 리턴 주소는 현재 프레임 포인터에서 -8byte 위치에 있음
+      printf("%x\n", ra);  // 리턴 주소 출력
+      fp = *(uint64 *)(fp - 16);  // 이전 프레임 포인터는 현재 프레임 포인터에서 -16byte 위치에 있음
+  }
+}
