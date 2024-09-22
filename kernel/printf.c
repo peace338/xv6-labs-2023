@@ -139,7 +139,7 @@ void backtrace(void) {
   uint64 ra;
 
   printf("backtrace:\n");
-  while (fp != 0) {
+  while (fp > PGROUNDDOWN(fp)) {
     ra = *(uint64 *)(fp - 8);  // 리턴 주소는 현재 프레임 포인터에서 -8byte 위치에 있음
     printptr(ra);  // 리턴 주소 출력
     printf("\n");
